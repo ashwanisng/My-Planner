@@ -43,6 +43,9 @@ class _HomePageState extends State<HomePage> {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
                 title: Text("Add Task"),
                 content: TextField(
                   onChanged: (String value) {
