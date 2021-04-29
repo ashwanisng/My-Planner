@@ -36,7 +36,14 @@ class _HomePageState extends State<HomePage> {
     documentReference.set(todos).whenComplete(() => print("$input created"));
   }
 
-  deleteToDos() {}
+  deleteToDos(item) {
+    DocumentReference documentReference =
+        FirebaseFirestore.instance.collection("MyTodos").doc(item);
+
+    documentReference.delete().whenComplete(
+          () => print("Deleted"),
+        );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,9 +103,7 @@ class _HomePageState extends State<HomePage> {
                             title: Text(todoItem.title),
                             trailing: IconButton(
                               onPressed: () {
-                                setState(() {
-                                  todos.removeAt(index);
-                                });
+                                deleteToDos(todoItem.title);
                               },
                               icon: Icon(Icons.delete),
                               color: Colors.red,
