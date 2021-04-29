@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:planner_app/model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,36 +78,39 @@ class _HomePageState extends State<HomePage> {
       ),
       body: StreamBuilder(
           stream: FirebaseFirestore.instance.collection('MyTodos').snapshots(),
-          builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: snapshot.data.docs.length,
-              itemBuilder: (context, index) {
-                DocumentSnapshot documentSnapshot = snapshot.data.docs[index];
-                return Dismissible(
-                  key: Key(index.toString()),
-                  child: Card(
-                    elevation: 4.0,
-                    margin: EdgeInsets.all(8.0),
-                    child: ListTile(
-                      title: Text(documentSnapshot["todoTitle"]),
-                      trailing: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            todos.removeAt(index);
-                          });
-                        },
-                        icon: Icon(Icons.delete),
-                        color: Colors.red,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
+          builder: (context, snapshot) {
+            return !snapshot.hasData
+                ? Text('PLease Wait')
+                : ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.hasData ? snapshot.data.docs.length : 0,
+                    itemBuilder: (context, index) {
+                      Todo todoItem =
+                          Todo.fromdocument(snapshot.data.docs[index]);
+                      return Dismissible(
+                        key: Key(index.toString()),
+                        child: Card(
+                          elevation: 4.0,
+                          margin: EdgeInsets.all(8.0),
+                          child: ListTile(
+                            title: Text(todoItem.title),
+                            trailing: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  todos.removeAt(index);
+                                });
+                              },
+                              icon: Icon(Icons.delete),
+                              color: Colors.red,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
           }),
     );
   }
