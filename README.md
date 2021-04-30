@@ -6,6 +6,8 @@
 is a small, simple and beautiful task managment application.
 
 
+<img src="assets/output.gif" width="300" height="600">
+
 ## Key Features
 
 - [x] Add the Task.
