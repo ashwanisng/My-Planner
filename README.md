@@ -33,3 +33,20 @@ $ flutter packages get
 # Run the app
 $ flutter run
 ```
+
+
+### Directory Structure
+
+The project directory structure is as follows:
+
+```
+├── android
+├── assets
+├── build
+├── images
+├── ios
+├── lib
+├── pubspec.lock
+├── pubspec.yaml
+
+```
